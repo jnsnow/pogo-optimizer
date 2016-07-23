@@ -91,6 +91,14 @@ var server = new PokemonGoMITM({
       if (err != null) console.log(err);
     });
   }
+})
+.setResponseHandler("GetPlayer", function(data) {
+  if (data.player_data && data.player_data.username) {
+    console.log("Player " + data.player_data.username + " logged in!");
+  }
+})
+.setResponseHandler("*", function(data, event) {
+  console.log(event + "::" + JSON.stringify(data, null, 2));
 });
 
 /**
