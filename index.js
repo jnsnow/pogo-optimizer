@@ -57,6 +57,11 @@ var server = new PokemonGoMITM({
       if (entry.individual_attack === undefined)  entry.individual_attack  = 0;
       if (entry.individual_defense === undefined) entry.individual_defense = 0;
       if (entry.num_upgrades === undefined)       entry.num_upgrades       = 0;
+      entry.stat_base = Math.sqrt(10 / ((186 + entry.individual_attack) * Math.sqrt(
+          (168 + entry.individual_defense) * (260 + entry.individual_stamina))));
+      entry.cpm_est = Math.sqrt(entry.cp) * entry.stat_base;
+      entry.cpm = entry.cp_multiplier + (entry.additional_cp_multiplier === undefined ? 0 : entry.additional_cp_multiplier);
+
       entry.power_quotient = (entry.individual_stamina + entry.individual_attack + entry.individual_defense) / 45;
       var data = _.find(PokemonData, function (pokemon) {
         return (pokemon.Name.toUpperCase() == entry.pokemon_id || pokemon.AltName == entry.pokemon_id);
